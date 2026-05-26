@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle del Autor - {{ autor.nombre }} {{ autor.apellido }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; line-height: 1.6; }
+        h1, h2 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 8px; }
+        .btn { display: inline-block; padding: 8px 12px; background-color: #3498db; color: white; text-decoration: none; border-radius: 4px; margin-right: 5px; }
+        .btn-secondary { background-color: #95a5a6; }
+        .btn-danger { background-color: #e74c3c; }
+        .acciones { margin-top: 20px; margin-bottom: 30px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 30px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f2f2f2; font-weight: bold; width: 25%; }
+        .libros-table th { width: auto; }
+    </style>
+</head>
+<body>
+
+    <h1>Ficha del Autor</h1>
+    
+    <div class="acciones">
+        <a href="{% url 'autor-list' %}" class="btn btn-secondary">← Volver a la Lista</a>
+        <a href="{% url 'autor-update' autor.pk %}" class="btn">Editar Datos</a>
+        <a href="{% url 'autor-delete' autor.pk %}" class="btn btn-danger">Eliminar Autor</a>
+    </div>
+
+    <table>
+        <tr>
+            <th>Nombre Completo</th>
+            <td>{{ autor.nombre }} {{ autor.apellido }}</td>
+        </tr>
+        <tr>
+            <th>Nacionalidad</th>
+            <td>{{ autor.nacionalidad|default:"No especificada" }}</td>
+        </tr>
+        <tr>
+            <th>Fecha de Nacimiento</th>
+            <td>{{ autor.fecha_nacimiento|date:"d/m/Y"|default:"No registrada" }}</td>
+        </tr>
+    </table>
+
+    <h2>Libros Escritos por este Autor</h2>
+    <table class="libros-table">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>ISBN</th>
+                <th>Fecha de Publicación</th>
+                <th>Páginas</th>
+            </tr>
+        </thead>
+        <tbody>
+            {# Aquí usamos el 'related_name="libros"' que definiste en tu models.py #}
+            {% for libro in autor.libros.all %}
+            <tr>
+                <td>{{ libro.titulo }}</td>
+                <td><code>{{ libro.isbn }}</code></td>
+                <td>{{ libro.fecha_publicacion|date:"d/m/Y" }}</td>
+                <td>{{ libro.paginas|default:"-" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">Este autor aún no tiene libros registrados en la biblioteca.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

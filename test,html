@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Página Simple</title>
+</head>
+<body>
+
+    <h1>Título de mi página</h1>
+    <p>Este es un párrafo de texto muy sencillo.</p>
+    <img src="https://via.placeholder.com/150" alt="Imagen de ejemplo">
+
+</body>
+</html>
